@@ -1,0 +1,47 @@
+[package]
+name = "simrs"
+version = "0.1.0"
+edition = "2021"
+description = "A Rust-first discrete-event simulation library for operations research"
+license = "MIT"
+repository = "https://github.com/shabeehshakkir/simrs"
+keywords = ["simulation", "discrete-event", "operations-research", "queuing"]
+categories = ["science", "simulation"]
+
+[features]
+default = []
+python = ["dep:pyo3", "pyo3/extension-module", "pyo3/abi3-py38"]
+parquet = ["dep:arrow", "dep:parquet"]
+
+[dependencies]
+rand = "0.8"
+rand_chacha = "0.3"
+rand_distr = "0.4"
+thiserror = "1"
+chrono = "=0.4.38"
+
+# Optional: Python bindings
+pyo3 = { version = "0.21", optional = true, features = ["extension-module", "abi3-py38"] }
+
+# Optional: Parquet/Arrow export
+arrow = { version = "51", optional = true }
+parquet = { version = "51", optional = true }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "event_set"
+harness = false
+
+[[bench]]
+name = "queueing"
+harness = false
+
+[[bench]]
+name = "replication"
+harness = false
+
+[lib]
+name = "simrs"
+crate-type = ["cdylib", "rlib"]
